@@ -51,7 +51,7 @@ h2,h3,p,.opt,li{overflow-wrap:anywhere}
 <div class="big">🏫 Sekolah Bumi</div><p>Petualangan belajar Modul 4: Ketahanan Pangan 🌾</p>
 <input id="nm" maxlength="16" placeholder="Nama kamu (tampil di atas karakter)">
 <div><button id="gm" class="on" onclick="gn('m')">👦 Cowok</button><button id="gf" onclick="gn('f')">👧 Cewek</button></div>
-<div><button id="rb0" class="on" onclick="role(0)">🎒 Saya Siswa</button><button id="rb1" onclick="role(1)">👑 Saya Guru</button></div>
+<div><button id="rb0" class="on" onclick="pilihRole(0)">🎒 Saya Siswa</button><button id="rb1" onclick="pilihRole(1)">👑 Saya Guru</button></div>
 <input id="rc" maxlength="6" placeholder="Kode ruang dari guru (mis. EK7P2)" style="text-transform:uppercase">
 <input id="cd" type="password" placeholder="Kode guru" style="display:none">
 <div id="brw" style="display:none;text-align:left;font-size:14px;margin:4px 0">Jalur server publik: <select id="br" style="font:inherit;padding:6px;border-radius:8px"><option value="A">Otomatis (disarankan)</option><option value="E">Jalur E (EMQX)</option><option value="H">Jalur H (HiveMQ)</option><option value="M">Jalur M (Mosquitto)</option></select></div>
@@ -215,7 +215,7 @@ async function watch(){if(!me)return;const now=performance.now();if(now-lastMsg>
  if(S.P.length&&!mm()){if(++missing>=2){missing=0;const r=await api('/join',JOINP);if(!r.err){me.id=r.id;me.x=r.x;me.y=r.y;toast('🔄 Tersambung ulang ke sekolah');conn()}}}else missing=0}
 const roomLink=()=>location.origin+location.pathname+'?r='+ROOM;
 function copyRoom(){const l=roomLink();try{navigator.clipboard.writeText(l).then(()=>toast('🔗 Link ruang disalin!'),()=>prompt('Salin link ini:',l))}catch(e){prompt('Salin link ini:',l)}}
-function role(r){ROLE=r;$('rc').style.display=r?'none':'block';$('cd').style.display=r?'block':'none';$('brw').style.display=r?'block':'none';$('jb').textContent=r?'Buat Ruang 🏫':'Masuk ke gerbang 🚪';$('rb0').className=r?'':'on';$('rb1').className=r?'on':''}
+function pilihRole(r){ROLE=r;$('rc').style.display=r?'none':'block';$('cd').style.display=r?'block':'none';$('brw').style.display=r?'block':'none';$('jb').textContent=r?'Buat Ruang 🏫':'Masuk ke gerbang 🚪';$('rb0').className=r?'':'on';$('rb1').className=r?'on':''}
 addEventListener('beforeunload',()=>{if(me&&!HOSTMODE&&NET)try{NET.publish(TP+ROOM+'/req',JSON.stringify({c:CID,r:0,u:'/bye',b:{id:me.id}}))}catch(e){}});
 document.addEventListener('pointerdown',e=>{const a=document.activeElement;if(a&&a.tagName=='INPUT'&&e.target!==a)a.blur()});
 async function join(){try{AC=AC||new AudioContext()}catch(e){}
@@ -410,5 +410,5 @@ function draw(t){g.setTransform(1,0,0,1,0,0);g.fillStyle='#2b3a55';g.fillRect(0,
 let last=performance.now();(function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;acc+=dt;
  if(me&&!(LQ&&acc<.028)){try{update(Math.min(.06,acc));acc=0;draw(t)}catch(e){acc=0;console.error(e);for(let i=0;i<8;i++)g.restore()}if(!ft)ft=t;if(++fr==90){const av=(t-ft)/90;ft=t;fr=0;if(av>26&&!LQ&&!lqSet){LQ=true;lqb();conn();toast('⚡ Mode hemat aktif otomatis agar tidak lag')}}}
  requestAnimationFrame(loop)})(last);
-role(0);{const q=new URLSearchParams(location.search).get('r');if(q)$('rc').value=q.toUpperCase()}
+pilihRole(0);{const q=new URLSearchParams(location.search).get('r');if(q)$('rc').value=q.toUpperCase()}
 </script></body></html>
